@@ -213,7 +213,29 @@
                                         <li><a href="#"><img src="/site/assets/imgs/theme/flag-ru.png" alt="">Pусский</a></li>
                                     </ul>
                                 </li>
-                                <li><i class="fi-rs-user"></i><a href="page-login-register.html">Log In / Sign Up</a></li>
+                                @auth
+                                <li class="dropdown nav-item">
+                                    <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#" id="dropdownAccount" aria-expanded="false">
+                                        {{Auth::guard()->user()->name}}
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
+                                        <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                        <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
+                                        <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
+                                        <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>
+                                        <a class="dropdown-item" href="#"><i class="material-icons md-help_outline"></i>Help center</a>
+                                        <div class="dropdown-divider"></div>
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: inline;">
+                                            @csrf
+                                            <button type="submit" class="dropdown-item text-danger border-0 bg-transparent w-100 text-start" style="cursor: pointer;">
+                                                <i class="material-icons md-exit_to_app"></i>Logout
+                                            </button>
+                                        </form>
+                                    </div>
+                                    </li>
+                                    @else
+                                    <li><i class="fi-rs-user"></i><a href="{{Route('register')}}">Log In / Sign Up</a></li>
+                                    @endauth
                             </ul>
                         </div>
                     </div>
@@ -993,8 +1015,8 @@
     <script src="/site/assets/js/plugins/jquery.theia.sticky.js"></script>
     <script src="/site/assets/js/plugins/jquery.elevatezoom.js"></script>
     <!-- Template  JS -->
-    <script src=".//site/assets/js/main.js?v=3.4"></script>
-    <script src=".//site/assets/js/shop.js?v=3.4"></script>
+    <script src="./site/assets/js/main.js?v=3.4"></script>
+    <script src="./site/assets/js/shop.js?v=3.4"></script>
 
 
 </body>

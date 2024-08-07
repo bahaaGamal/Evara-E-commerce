@@ -1,13 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\AdminAuthController;
-use App\Http\Controllers\Admin\AdminController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +38,7 @@ Route::prefix('admins')->group(function(){
 
 Route::get('/', function () {
     return view('site.index');
-})->name('site.index');
+})->name('site.index')->middleware('auth','verified');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -76,4 +78,6 @@ Route::resource('sellers',SellerController::class);
 Route::patch('/sellers/{id}/toggle-status', [SellerController::class, 'toggleStatus'])->name('sellers.toggleStatus');
 
 Route::resource('admins',AdminController::class);
+
+Route::get('/sendEmail',[EmailController::class,'send']);
 
