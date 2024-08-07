@@ -219,7 +219,7 @@
                                         {{Auth::guard()->user()->name}}
                                     </a>
                                     <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownAccount">
-                                        <a class="dropdown-item" href="#"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
+                                        <a class="dropdown-item" href="{{Route('profile.edit')}}"><i class="material-icons md-perm_identity"></i>Edit Profile</a>
                                         <a class="dropdown-item" href="#"><i class="material-icons md-settings"></i>Account Settings</a>
                                         <a class="dropdown-item" href="#"><i class="material-icons md-account_balance_wallet"></i>Wallet</a>
                                         <a class="dropdown-item" href="#"><i class="material-icons md-receipt"></i>Billing</a>

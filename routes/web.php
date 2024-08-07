@@ -2,14 +2,15 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Site\ShopController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Auth\RegisteredUserController;
-use App\Http\Controllers\EmailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,8 @@ Route::resource('sellers',SellerController::class);
 Route::patch('/sellers/{id}/toggle-status', [SellerController::class, 'toggleStatus'])->name('sellers.toggleStatus');
 
 Route::resource('admins',AdminController::class);
+
+Route::get('/shop', [ShopController::class, 'index'])->name('site.shop');
 
 Route::get('/sendEmail',[EmailController::class,'send']);
 
