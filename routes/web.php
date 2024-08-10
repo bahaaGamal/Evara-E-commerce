@@ -1,12 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\EmailController;
 use App\Http\Controllers\SellerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Site\ShopController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminAuthController;
@@ -81,6 +83,20 @@ Route::patch('/sellers/{id}/toggle-status', [SellerController::class, 'toggleSta
 Route::resource('admins',AdminController::class);
 
 Route::get('/shop', [ShopController::class, 'index'])->name('site.shop');
+
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::post('/cart/store', [CartController::class, 'addToCart'])->name('cart.store');
+Route::put('/cart/update', [CartController::class, 'updateCart'])->name('cart.update');
+Route::delete('/cart/remove', [CartController::class, 'removeItem'])->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clearCart'])->name('cart.clear');
+
+Route::get('/wishlist',[WishlistController::class,'getWishlistedProducts'])->name('wishlist.index');
+Route::post('/wishlist/store', [WishlistController::class, 'addToWishlist'])->name('wishlist.store');
+Route::delete('/wishlist/remove',[WishlistController::class,'removeProductFromWishlist'])->name('wishlist.remove');
+Route::post('/wishlist/move-to-cart',[WishlistController::class,'moveToCart'])->name('wishlist.move.to.cart');
+
+
+
 
 Route::get('/sendEmail',[EmailController::class,'send']);
 
