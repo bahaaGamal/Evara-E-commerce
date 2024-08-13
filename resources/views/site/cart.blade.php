@@ -379,7 +379,13 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <a href="#" class="btn "> <i class="fi-rs-box-alt mr-10"></i> Proceed To CheckOut</a>
+                                    <a class="btn " onclick="event.preventDefault(); document.getElementById('orders-store').submit();">
+                                        <i class="fi-rs-box-alt mr-10"></i>
+                                        Proceed To CheckOut
+                                        <form id="orders-store" method="post" action="{{ route('orders.store') }}">
+                                            @csrf
+                                        </form>
+                                    </a>
                                 </div>
                             </div>
                         </div>

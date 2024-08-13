@@ -1,10 +1,13 @@
 <?php
 
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\EmailController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SellerController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CategoryController;
@@ -94,6 +97,14 @@ Route::get('/wishlist',[WishlistController::class,'getWishlistedProducts'])->nam
 Route::post('/wishlist/store', [WishlistController::class, 'addToWishlist'])->name('wishlist.store');
 Route::delete('/wishlist/remove',[WishlistController::class,'removeProductFromWishlist'])->name('wishlist.remove');
 Route::post('/wishlist/move-to-cart',[WishlistController::class,'moveToCart'])->name('wishlist.move.to.cart');
+
+Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
+
+
+Route::get('/payment/success/{order}', [PaymentController::class ,'success'])->name('payment.success');
+Route::get('/payment/failed/{order}', [PaymentController::class ,'failed'])->name('payment.failed');
+
+
 
 
 
