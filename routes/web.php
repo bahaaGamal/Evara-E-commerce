@@ -16,6 +16,7 @@ use App\Http\Controllers\Site\ShopController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Seller\SellerAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,17 +39,23 @@ Route::prefix('admins')->group(function(){
 
 });
 
-// Route::get('/admin', function () {
-//     return view('admin.index');
-// })->name('index');
+Route::prefix('sellers')->group(function(){
+    Route::get('/dashboard', [SellerAuthController::class, 'dashboard'])->name('seller.dashboard')
+            ->middleware('seller');
+    Route::get('/logout', [SellerAuthController::class, 'logout'])->name('seller.logout')
+            ->middleware('seller');
+    Route::get('/login', [SellerAuthController::class, 'index'])->name('seller_login_form');
+    Route::post('/login/owner', [SellerAuthController::class, 'login'])->name('seller.login');
+
+});
+
+
 
 Route::get('/', function () {
     return view('site.index');
 })->name('site.index')->middleware('auth','verified');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

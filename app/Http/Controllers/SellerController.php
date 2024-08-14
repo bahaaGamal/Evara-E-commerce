@@ -64,6 +64,7 @@ class SellerController extends Controller
             'profile_image' => $profileImageName,
             'manager_name' => $request->manager_name,
             'email' => $request->email,
+            'password' => bcrypt('password'),
             'phone' => $request->phone_number,
             'country' => $request->country,
             'postal_code' => $request->postal_code,

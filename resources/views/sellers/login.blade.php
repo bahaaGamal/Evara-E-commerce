@@ -72,7 +72,7 @@
                        {{session::get('error')}}
                     </div>
                     @endif
-                    <form action="{{Route('admin.login')}}" method="post">
+                    <form action="{{Route('seller.login')}}" method="post">
                         @csrf
                         <div class="mb-3 form-group">
                             <input name="email" class="form-control" placeholder="Username or email" type="text">
