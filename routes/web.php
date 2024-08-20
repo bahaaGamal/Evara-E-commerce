@@ -15,6 +15,8 @@ use App\Http\Controllers\WishlistController;
 use App\Http\Controllers\Site\ShopController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Seller\SellerAuthController;
 
@@ -29,6 +31,8 @@ use App\Http\Controllers\Seller\SellerAuthController;
 |
 */
 
+// ################################ Admin Routes ######################### //
+
 Route::prefix('admins')->group(function(){
     Route::get('/dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard')
             ->middleware('admin');
@@ -36,9 +40,36 @@ Route::prefix('admins')->group(function(){
             ->middleware('admin');
     Route::get('/login', [AdminAuthController::class, 'index'])->name('login_form');
     Route::post('/login/owner', [AdminAuthController::class, 'login'])->name('admin.login');
-
 });
 
+Route::prefix('admins/orders')->group(function(){
+    Route::get('/',[AdminOrderController::class,"index"])->name('orders.index');
+    Route::get('/{order}',[AdminOrderController::class,"show"])->name('orders.show');
+    Route::delete('/{order}',[AdminOrderController::class,"destroy"])->name('orders.destroy');
+});
+
+Route::resource('admins',AdminController::class);
+
+Route::resource('brands',BrandController::class);
+
+Route::prefix('/categories')->group(function(){
+    Route::get('/',[CategoryController::class,"index"])->name('categories.index');
+    Route::get('/create',[CategoryController::class,"create"])->name('categories.create');
+    Route::post('/',[CategoryController::class,"store"])->name('categories.store');
+    Route::get('/{category}',[CategoryController::class,"show"])->name('categories.show');
+    Route::get('/{category}/edit',[CategoryController::class,"edit"])->name('categories.edit');
+    Route::put('/{category}',[CategoryController::class,"update"])->name('categories.update');
+    Route::delete('/{category}',[CategoryController::class,"destroy"])->name('categories.destroy');
+});
+
+Route::resource('coupons', CouponController::class);
+
+
+// ################################ End Admin Routes ######################### //
+
+
+
+// ################################ Seller Routes ######################### //
 Route::prefix('sellers')->group(function(){
     Route::get('/dashboard', [SellerAuthController::class, 'dashboard'])->name('seller.dashboard')
             ->middleware('seller');
@@ -49,8 +80,11 @@ Route::prefix('sellers')->group(function(){
 
 });
 
+// ################################ End Seller Routes ######################### //
 
 
+
+// ################################ User Routes ######################### //
 Route::get('/', function () {
     return view('site.index');
 })->name('site.index')->middleware('auth','verified');
@@ -65,6 +99,8 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+// ################################ End User Routes ######################### //
+
 Route::prefix('/products')->group(function(){
     Route::get('/',[ProductController::class,"index"])->name('products.index');
     Route::get('/create',[ProductController::class,"create"])->name('products.create');
@@ -75,22 +111,10 @@ Route::prefix('/products')->group(function(){
     Route::delete('/{product}',[ProductController::class,"destroy"])->name('products.destroy');
 });
 
-Route::prefix('/categories')->group(function(){
-    Route::get('/',[CategoryController::class,"index"])->name('categories.index');
-    Route::get('/create',[CategoryController::class,"create"])->name('categories.create');
-    Route::post('/',[CategoryController::class,"store"])->name('categories.store');
-    Route::get('/{category}',[CategoryController::class,"show"])->name('categories.show');
-    Route::get('/{category}/edit',[CategoryController::class,"edit"])->name('categories.edit');
-    Route::put('/{category}',[CategoryController::class,"update"])->name('categories.update');
-    Route::delete('/{category}',[CategoryController::class,"destroy"])->name('categories.destroy');
-});
-
-Route::resource('brands',BrandController::class);
 
 Route::resource('sellers',SellerController::class);
 Route::patch('/sellers/{id}/toggle-status', [SellerController::class, 'toggleStatus'])->name('sellers.toggleStatus');
 
-Route::resource('admins',AdminController::class);
 
 Route::get('/shop', [ShopController::class, 'index'])->name('site.shop');
 
@@ -105,7 +129,9 @@ Route::post('/wishlist/store', [WishlistController::class, 'addToWishlist'])->na
 Route::delete('/wishlist/remove',[WishlistController::class,'removeProductFromWishlist'])->name('wishlist.remove');
 Route::post('/wishlist/move-to-cart',[WishlistController::class,'moveToCart'])->name('wishlist.move.to.cart');
 
-Route::post('/orders', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
+Route::post('/orders/store', [OrderController::class, 'store'])->name('orders.store')->middleware('auth');
+Route::post('/orders/applyCoupon', [OrderController::class, 'applyCoupon'])->name('orders.applyCoupon')->middleware('auth');
+Route::post('/orders/calculateShipping', [OrderController::class, 'calculateShipping'])->name('orders.calculateShipping')->middleware('auth');
 
 
 Route::get('/payment/success/{order}', [PaymentController::class ,'success'])->name('payment.success');

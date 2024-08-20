@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\ShippingRate;
 use Illuminate\Http\Request;
 use Cart;
 
 class CartController extends Controller
 {
     public function index(){
-
         $cartItems = Cart::instance('cart')->content();
-        return view('site.cart', compact('cartItems'));
+        $shippings = ShippingRate::all();
+
+        return view('site.cart', compact('cartItems','shippings'));
     }
 
     public function addToCart(Request $request){

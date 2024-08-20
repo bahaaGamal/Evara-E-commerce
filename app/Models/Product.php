@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\Category;
+use Evara\Admin\Categories\Models\Category;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

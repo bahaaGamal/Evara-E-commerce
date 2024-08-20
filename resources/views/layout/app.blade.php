@@ -65,6 +65,11 @@
                         <span class="text">Add Product</span>
                     </a>
                 </li>
+                <li class="menu-item">
+                    <a class="menu-link" href="{{Route('coupons.index')}}"> <i class="icon material-icons md-comment"></i>
+                        <span class="text">Coupons</span>
+                    </a>
+                </li>
                 <li class="menu-item has-submenu">
                     <a class="menu-link" href="page-transactions-1.html"> <i class="icon material-icons md-monetization_on"></i>
                         <span class="text">Transactions</span>

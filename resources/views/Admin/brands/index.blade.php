@@ -35,16 +35,26 @@
                     </div>
                 </header> <!-- card-header end// -->
                 <div class="card-body">
-                    <div class="row gx-3">
-                        @foreach ($brands as $brand )
-                        <div class="col-xl-2 col-lg-3 col-md-4 col-6">
+                    <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-5">
+                     @foreach ($brands as $brand )
+                        <div class="col">
                             <figure class="card border-1">
                                 <div class="card-header bg-white text-center">
                                     <img height="76" src="assets/imgs/brands/brand-1.jpg" class="img-fluid" alt="Logo">
                                 </div>
                                 <figcaption class="card-body text-center">
                                     <h6 class="card-title m-0">{{$brand->name}}</h6>
-                                    <a href="#"> {{count($brand->products)}} items </a>
+                                    <p href="#"> {{count($brand->products)}} items </p>
+                                    <a href="{{Route('brands.edit',$brand->id)}}" class="btn btn-sm font-sm rounded btn-brand">
+                                        <i class="material-icons md-edit"></i> Edit
+                                    </a>
+                                    <form class="delete-tag" style="display: inline;" method="POST" action="{{Route('brands.destroy',$brand->id)}}" onclick="return confirm('Are you sure you want to delete this admin?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm font-sm btn-light rounded">
+                                            <i class="material-icons md-delete_forever"></i> Delete
+                                        </button>
+                                    </form>
                                 </figcaption>
                             </figure>
                         </div> <!-- col.// -->

@@ -1,5 +1,7 @@
 <?php
 
+use Evara\Admin\Admins\Models\Admin;
+
 return [
 
     /*
@@ -74,7 +76,7 @@ return [
         ],
         'admins' => [
             'driver' => 'eloquent',
-            'model' => App\Models\Admin::class,
+            'model' => Admin::class,
         ],
         'sellers' => [
             'driver' => 'eloquent',

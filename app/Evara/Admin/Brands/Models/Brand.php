@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace Evara\Admin\Brands\Models;
 
 use App\Models\Product;
 use Illuminate\Database\Eloquent\Model;

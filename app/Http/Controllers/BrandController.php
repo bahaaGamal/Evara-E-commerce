@@ -2,29 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Brand;
-use App\Models\Category;
 use Illuminate\Http\Request;
+use Evara\Admin\Brands\Models\Brand;
+use Evara\Admin\Brands\Requests\CreateBrand;
+use Evara\Admin\Brands\Requests\UpdateBrand;
+use Evara\Admin\Brands\Services\BrandService;
 
 class BrandController extends Controller
 {
+    private BrandService $brandService;
+
+    public function __construct(BrandService $brandService)
+    {
+        $this->brandService = $brandService;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $categories = Category::all();
-        $selectedCategory = $request->get('category_id');
-        $searchTerm = $request->get('search');
-
-        $brands = Brand::when($selectedCategory, function ($query, $selectedCategory) {
-            return $query->where('category_id', $selectedCategory);
-        })->when($searchTerm, function ($query, $searchTerm) {
-            return $query->where('name', 'like', "%{$searchTerm}%");
-        });
-
-        $brands = $brands->get();
-        return View('brands.index', compact('brands','categories', 'selectedCategory','searchTerm'));
+        return $this->brandService->index($request);
     }
 
     /**
@@ -32,32 +29,15 @@ class BrandController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        return View('brands.create', compact('categories'));
+        return $this->brandService->create();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateBrand $request)
     {
-        request()->validate([
-            'name' => 'required|string|min:3|max:255',
-            'category' => 'required|integer|exists:categories,id',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
-        ]);
-
-        $image = request()->file('image')->store('public');
-
-        $brand = new Brand;
-
-        $brand->name = $request->name;
-        $brand->category_id = $request->category;
-        $brand->image = $image;
-
-        $brand->save();
-
-        return to_route('brands.index');
+        return $this->brandService->store($request);
     }
 
     /**
@@ -73,15 +53,15 @@ class BrandController extends Controller
      */
     public function edit(Brand $brand)
     {
-        //
+        return $this->brandService->edit($brand);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Brand $brand)
+    public function update(UpdateBrand $request, Brand $brand)
     {
-        //
+        return $this->brandService->update($request,$brand);
     }
 
     /**
@@ -89,6 +69,6 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
-        //
+        return $this->brandService->destroy($brand);
     }
 }

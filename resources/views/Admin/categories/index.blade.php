@@ -61,11 +61,6 @@
                                 <table class="table table-hover">
                                     <thead>
                                         <tr>
-                                            <th class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </th>
                                             <th>ID</th>
                                             <th>Name</th>
                                             <th>Description</th>
@@ -77,11 +72,6 @@
                                     <tbody>
                                         @foreach ($categories as $category )
                                         <tr>
-                                            <td class="text-center">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" value="" />
-                                                </div>
-                                            </td>
                                             <td>{{$category->id}}</td>
                                             <td><b>{{$category->name}}</b></td>
                                             <td>{{$category->description}}</td>

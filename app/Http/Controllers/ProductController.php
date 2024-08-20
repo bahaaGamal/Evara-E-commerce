@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use File;
+use Evara\Admin\Brands\Models\Brand;
 use App\Models\Product;
-use App\Models\Category;
-use App\Models\Brand;
+use Evara\Admin\Categories\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\CreateProduct;
 
 class ProductController extends Controller
 {
@@ -60,19 +61,9 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateProduct $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'brand' => 'required|integer',
-            'price' => 'required|numeric',
-            'category' => 'required|integer|max:255',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif',
-        ]);
-
-        $image = request()->file('image')->store('public');
-
+        $image = $request->file('image')->store('public');
 
         $product = new Product([
             'title' => $request->title,
@@ -85,7 +76,8 @@ class ProductController extends Controller
 
         $product->save();
 
-        return response()->json(['status' => 'success','message' => 'Data Added Successfully']);
+        return response()->json(['status' => 'success', 'message' => 'Data Added Successfully']);
+
     }
 
     /**

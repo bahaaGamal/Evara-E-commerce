@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use Illuminate\Http\Request;
+use Evara\Admin\Categories\Models\Category;
+use Evara\Admin\Categories\Requests\CategoryRequest;
+use Evara\Admin\Categories\Services\CategoryService;
 
 class CategoryController extends Controller
 {
+    private CategoryService $categoryService;
+
+    public function __construct(CategoryService $categoryService)
+    {
+        $this->categoryService = $categoryService;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-        $searchTerm = $request->get('search');
+        return $this->categoryService->index($request);
 
-        $categories = Category::when($searchTerm, function ($query, $searchTerm) {
-            return $query->where('name', 'like', "%{$searchTerm}%");
-        });
-
-        $categories = $categories->get();
-        return View('categories.index', compact('categories','searchTerm'));
     }
 
     /**
@@ -33,25 +36,9 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryRequest $request)
     {
-        request()->validate([
-            'name' => 'required|string|min:3|max:255',
-            'slug' => 'required|string|unique:categories,slug|max:255',
-            'parent' => 'nullable|integer|exists:categories,id',
-            'description' => 'required|string',
-        ]);
-
-        $category = new Category;
-
-        $category->name = $request->name;
-        $category->slug = $request->slug;
-        $category->parent = $request->parent;
-        $category->description = $request->description;
-
-        $category->save();
-
-        return to_route('categories.index');
+        return $this->categoryService->store($request);
     }
 
     /**
@@ -59,7 +46,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return View('categories.show',compact('category'));
+        return $this->categoryService->show($category);
     }
 
     /**
@@ -67,30 +54,15 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $categories = Category::all();
-        return View('categories.edit', compact('categories','category'));
+        return $this->categoryService->edit($category);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Category $category)
+    public function update(CategoryRequest $request, Category $category)
     {
-        request()->validate([
-            'name' => 'required|string|min:3|max:255',
-            'slug' => 'required|string|max:255',
-            'parent' => 'nullable|integer|exists:categories,id',
-            'description' => 'required|string',
-        ]);
-
-        $category->name = $request->name;
-        $category->slug = $request->slug;
-        $category->parent = $request->parent;
-        $category->description = $request->description;
-
-        $category->save();
-
-        return to_route('categories.index');
+        return $this->categoryService->update($request,$category);
     }
 
     /**
@@ -98,8 +70,6 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();
-
-        return to_route('categories.index');
+        return $this->categoryService->destroy($category);
     }
 }

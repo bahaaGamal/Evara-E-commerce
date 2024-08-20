@@ -89,7 +89,7 @@ class MyFatoorahController extends Controller {
             'Language'           => 'en',
             'CustomerReference'  => $orderId,
             'SourceInfo'         => 'Laravel ' . app()::VERSION . ' - MyFatoorah Package ' . MYFATOORAH_LARAVEL_PACKAGE_VERSION,
-            'InvoiceItems'       => $order['InvoiceItems']
+            // 'InvoiceItems'       => $order['InvoiceItems']
         ];
     }
 

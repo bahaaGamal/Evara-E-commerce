@@ -9,11 +9,11 @@ use App\Http\Controllers\Controller;
 class AdminAuthController extends Controller
 {
     public function index(){
-        return view('admins.login');
+        return view('admin.admins.login');
     }
 
     public function dashboard(){
-        return view('admins.dashboard');
+        return view('admin.admins.dashboard');
     }
 
     public function login(Request $request){

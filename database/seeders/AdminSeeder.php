@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Admin;
+use Evara\Admin\Admins\Models\Admin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
